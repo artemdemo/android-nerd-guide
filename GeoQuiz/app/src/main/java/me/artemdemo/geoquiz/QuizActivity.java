@@ -1,5 +1,6 @@
 package me.artemdemo.geoquiz;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ public class QuizActivity extends ActionBarActivity {
     private Button mFalseButton;
     private Button mNextButton;
     private Button mPrevButton;
+    private Button mCheatButton;
     private TextView mQuestionTextView;
     
     private static final String TAG = "QuizActivity";
@@ -103,6 +105,7 @@ public class QuizActivity extends ActionBarActivity {
         mFalseButton = (Button)findViewById(R.id.false_button);
         mNextButton = (Button)findViewById(R.id.next_button);
         mPrevButton = (Button)findViewById(R.id.prev_button);
+        mCheatButton = (Button)findViewById(R.id.cheat_button);
         
         if ( savedInstanceState != null ) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX);
@@ -110,6 +113,13 @@ public class QuizActivity extends ActionBarActivity {
 
         updateQuestion();
 
+        mQuestionTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                changeQuestion( mQuestonDirection.NEXT );
+            }
+        });
+        
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,11 +133,12 @@ public class QuizActivity extends ActionBarActivity {
                 checkAnswer(false);
             }
         });
-
-        mQuestionTextView.setOnClickListener(new View.OnClickListener(){
+        
+        mCheatButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                changeQuestion( mQuestonDirection.NEXT );
+                Intent i = new Intent(QuizActivity.this, CheatActivity.class);
+                startActivity(i);
             }
         });
 
