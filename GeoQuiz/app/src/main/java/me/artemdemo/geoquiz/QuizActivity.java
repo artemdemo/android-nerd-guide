@@ -2,13 +2,13 @@ package me.artemdemo.geoquiz;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 public class QuizActivity extends ActionBarActivity {
 
@@ -17,6 +17,8 @@ public class QuizActivity extends ActionBarActivity {
     private Button mNextButton;
     private Button mPrevButton;
     private TextView mQuestionTextView;
+    
+    private static final String TAG = "QuizActivity";
 
     /*
      * Array of questions, that will be show to the user
@@ -87,6 +89,7 @@ public class QuizActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_quiz);
 
         mQuestionTextView = (TextView)findViewById(R.id.question_text_view);
@@ -133,6 +136,35 @@ public class QuizActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart() called");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause() called");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume() called");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop() called");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy() called");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
