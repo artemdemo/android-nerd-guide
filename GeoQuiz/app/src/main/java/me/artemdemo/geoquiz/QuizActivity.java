@@ -19,6 +19,12 @@ public class QuizActivity extends ActionBarActivity {
     private TextView mQuestionTextView;
     
     private static final String TAG = "QuizActivity";
+    
+    /*
+     * Adding a constant that will be the key for the key-value pair that will be stored in the bundle.
+     * This constant will help save and restore data between Instance States (for example between rotations) 
+     */
+    private static final String KEY_INDEX = "index";
 
     /*
      * Array of questions, that will be show to the user
@@ -97,6 +103,10 @@ public class QuizActivity extends ActionBarActivity {
         mFalseButton = (Button)findViewById(R.id.false_button);
         mNextButton = (Button)findViewById(R.id.next_button);
         mPrevButton = (Button)findViewById(R.id.prev_button);
+        
+        if ( savedInstanceState != null ) {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX);
+        }
 
         updateQuestion();
 
@@ -134,6 +144,13 @@ public class QuizActivity extends ActionBarActivity {
                 changeQuestion( mQuestonDirection.PREV );
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i(TAG, "onSaveInstanceState");
+        outState.putInt(KEY_INDEX, mCurrentIndex);
     }
 
     @Override
