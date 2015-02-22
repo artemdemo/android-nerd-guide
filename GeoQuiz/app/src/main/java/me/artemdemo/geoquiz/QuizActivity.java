@@ -138,6 +138,9 @@ public class QuizActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(QuizActivity.this, CheatActivity.class);
+                // Saving extra data for the Cheat Activity, that will be opened shortly
+                boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
+                i.putExtra(CheatActivity.EXTRA_ANSWER_IS_TRUE, answerIsTrue);
                 startActivity(i);
             }
         });
