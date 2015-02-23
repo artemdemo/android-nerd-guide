@@ -27,6 +27,7 @@ public class QuizActivity extends ActionBarActivity {
      * This constant will help save and restore data between Instance States (for example between rotations) 
      */
     private static final String KEY_INDEX = "index";
+    private static final String KEY_CHEATER = "cheater";
 
     /*
      * Array of questions, that will be show to the user
@@ -43,6 +44,8 @@ public class QuizActivity extends ActionBarActivity {
      * Index of the current shown question
      */
     private int mCurrentIndex = 0;
+    
+    private boolean mIsCheater;
     
     /*
      * Enum variable to describe which question should be shown
@@ -66,10 +69,14 @@ public class QuizActivity extends ActionBarActivity {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
         int messageResId = 0;
         
-        if (userPressedTrue == answerIsTrue) {
-            messageResId = R.string.correct_toast;
+        if (mIsCheater) {
+            messageResId = R.string.judgment_toast;
         } else {
-            messageResId = R.string.incorrect_toast;
+            if (userPressedTrue == answerIsTrue) {
+                messageResId = R.string.correct_toast;
+            } else {
+                messageResId = R.string.incorrect_toast;
+            }   
         }
         
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
@@ -109,6 +116,7 @@ public class QuizActivity extends ActionBarActivity {
         
         if ( savedInstanceState != null ) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX);
+            mIsCheater = savedInstanceState.getBoolean(KEY_CHEATER);
         }
 
         updateQuestion();
@@ -141,13 +149,14 @@ public class QuizActivity extends ActionBarActivity {
                 // Saving extra data for the Cheat Activity, that will be opened shortly
                 boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
                 i.putExtra(CheatActivity.EXTRA_ANSWER_IS_TRUE, answerIsTrue);
-                startActivity(i);
+                startActivityForResult(i, 0);
             }
         });
 
         mNextButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                mIsCheater = false;
                 changeQuestion( mQuestonDirection.NEXT );
             }
         });
@@ -155,6 +164,7 @@ public class QuizActivity extends ActionBarActivity {
         mPrevButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                mIsCheater = false;
                 changeQuestion( mQuestonDirection.PREV );
             }
         });
@@ -165,6 +175,16 @@ public class QuizActivity extends ActionBarActivity {
         super.onSaveInstanceState(outState);
         Log.i(TAG, "onSaveInstanceState");
         outState.putInt(KEY_INDEX, mCurrentIndex);
+        outState.putBoolean(KEY_CHEATER, mIsCheater);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if ( data == null ) {
+            return;
+        }
+        mIsCheater = data.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
     }
 
     @Override

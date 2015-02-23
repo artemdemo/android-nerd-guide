@@ -1,5 +1,6 @@
 package me.artemdemo.geoquiz;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,16 +13,31 @@ import android.widget.TextView;
 public class CheatActivity extends ActionBarActivity {
     
     public static final String EXTRA_ANSWER_IS_TRUE = "me.artemdemo.android.geoquiz.answer_is_true";
+    public static final String EXTRA_ANSWER_SHOWN = "me.artemdemo.android.geoquiz.answer_shown";
     
     private boolean mAnswerIsTrue;
     
     private TextView mAnswerTextView;
     private Button mShowAnswer;
+    
+    /*
+     * This function is only what takes to save data to the QuizActivity
+     */
+    private void setAnswerShownResult(boolean isAnswerShown) {
+        Intent data = new Intent();
+        data.putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown);
+        setResult(RESULT_OK, data);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
+        
+        /*
+         * Answer will not be shown until the user press the button
+         */
+        setAnswerShownResult(false);
 
         mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
         
@@ -36,6 +52,7 @@ public class CheatActivity extends ActionBarActivity {
                 } else {
                     mAnswerTextView.setText(R.string.false_button);
                 }
+                setAnswerShownResult(true);
             }
         });
     }
