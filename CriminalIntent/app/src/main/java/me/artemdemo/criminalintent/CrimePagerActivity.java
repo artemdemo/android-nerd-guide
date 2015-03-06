@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
 import java.util.ArrayList;
@@ -28,6 +29,14 @@ public class CrimePagerActivity extends ActionBarActivity {
         mViewPager = new ViewPager(this);
         mViewPager.setId(R.id.viewPager);
         setContentView(mViewPager);
+
+        // Enabling app icon to work as a button
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            //actionBar.setLogo(R.drawable.ic_launcher);
+            actionBar.setDisplayUseLogoEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         
         // Setting up the ViewPage adapter
         mCrimes = CrimeLab.get(this).getCrimes();

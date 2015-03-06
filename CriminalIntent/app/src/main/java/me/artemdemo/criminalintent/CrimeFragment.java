@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -56,6 +57,8 @@ public class CrimeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID crimeId = (UUID)getArguments().getSerializable(EXTRA_CRIME_ID);
         mCrime = CrimeLab.get( getActivity() ).getCrime(crimeId);
+
+        setHasOptionsMenu(true);
     }
 
     private void updateDate() {
@@ -110,6 +113,17 @@ public class CrimeFragment extends Fragment {
         });
         
         return v;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch ( item.getItemId() ) {
+            case android.R.id.home:
+                Log.v(TAG, "ARTEM");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);   
+        }
     }
 
     @Override
