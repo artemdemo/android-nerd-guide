@@ -7,6 +7,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.KeyEvent;
 
 /**
@@ -17,7 +18,7 @@ import android.view.KeyEvent;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends PreferenceFragment
+public class SettingsActivity extends PreferenceActivity
         implements Preference.OnPreferenceChangeListener {
 
     @Override
@@ -29,6 +30,7 @@ public class SettingsActivity extends PreferenceFragment
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
         // updated when the preference changes.
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
     }
 
 
