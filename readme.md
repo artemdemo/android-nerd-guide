@@ -6,6 +6,9 @@ List of projects:
 
 * Geographical Quiz
 * Crime App
+* Simple audio play app
+* Weather app (API calls)
+
 
 ## Geographical Quiz ##
 * Basic work with Activity.
